@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Touch Some Grass</title>
+    
+    <!-- 引入 Tailwind CSS 用于快速样式布局 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 引入 Outfit 字体，完美平替 Product Sans，极具现代几何高级感 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            overflow: hidden; /* 防止出现滚动条 */
+            background-color: #000;
+        }
+
+        /* 提升主标题立体感的阴影 */
+        .text-glow {
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+    </style>
+</head>
+<body class="relative w-screen h-screen flex flex-col items-center justify-center">
+
+    <!-- 背景层：使用真实的动态草地视频作为背景 -->
+    <div class="absolute inset-0 w-full h-full overflow-hidden bg-black">
+        <video 
+            autoplay 
+            loop 
+            muted 
+            playsinline 
+            class="absolute inset-0 w-full h-full object-cover opacity-80"
+        >
+            <!-- 使用你提供的原版无文字视频 -->
+            <source src="https://img.1119999.xyz/file/1785506210557_复刻个无文字的视频.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- 暗色渐变遮罩，确保白色文字的可读性 -->
+    <div class="absolute inset-0 bg-black/30 pointer-events-none z-0"></div>
+
+    <!-- 顶部 Logo 区域 -->
+    <div class="absolute top-8 left-1/2 -translate-x-1/2 flex items-center gap-2.5 z-10">
+        <!-- Logo 图标 (使用 SVG 模拟三个橘色柱状图) -->
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="13" width="4" height="7" rx="1.5" fill="#FF6B35"/>
+            <rect x="10" y="8" width="4" height="12" rx="1.5" fill="#FF6B35"/>
+            <rect x="16" y="4" width="4" height="16" rx="1.5" fill="#FF6B35"/>
+        </svg>
+        <span class="text-white font-bold text-xl tracking-wide drop-shadow-md">Cyaraon</span>
+    </div>
+
+    <!-- 主体内容区域 -->
+    <div class="relative z-10 flex flex-col items-center text-center px-4 w-full">
+        <!-- 巨大的 404 标题 -->
+        <h1 class="text-white text-[9rem] md:text-[15rem] font-black tracking-tighter leading-none text-glow mb-2 md:mb-6 select-none">
+            404
+        </h1>
+        
+        <!-- 副标题 -->
+        <p id="subtitle" class="text-white text-base md:text-xl font-medium tracking-[0.05em] mb-10 drop-shadow-md select-none transition-opacity duration-300">
+            Perfect excuse to touch some grass
+        </p>
+
+        <!-- 返回主页按钮 (支持点击跳转至你的域名) -->
+        <a href="https://1119999.xyz" class="group bg-white hover:bg-gray-100 text-black px-6 py-2.5 rounded-full font-semibold text-sm md:text-base flex items-center gap-2 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 no-underline cursor-pointer">
+            <!-- 箭头图标 -->
+            <svg class="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            <span id="btn-text">Take Me Home</span>
+        </a>
+    </div>
+
+    <!-- 语言识别与动态切换脚本 -->
+    <script>
+        const i18n = {
+            'en': {
+                subtitle: 'Perfect excuse to touch some grass',
+                button: 'Take Me Home'
+            },
+            'zh-CN': {
+                subtitle: '正好是个出门摸摸草的完美借口',
+                button: '带我回家'
+            },
+            'zh-TW': {
+                subtitle: '正好是個出門摸摸草的完美藉口',
+                button: '帶我回家'
+            },
+            'ja': {
+                subtitle: '自然と触れ合うための完璧な言い訳',
+                button: 'ホームへ戻る'
+            }
+        };
+
+        function updateLanguage() {
+            // 获取浏览器语言
+            let lang = navigator.language || navigator.userLanguage;
+            let currentLang = 'en'; // 默认英语
+            
+            // 模糊匹配语言
+            if (lang.toLowerCase().startsWith('zh')) {
+                // 区分简繁体
+                if (lang.toLowerCase().includes('tw') || lang.toLowerCase().includes('hk') || lang.toLowerCase().includes('hant')) {
+                    currentLang = 'zh-TW';
+                } else {
+                    currentLang = 'zh-CN';
+                }
+            } else if (lang.toLowerCase().startsWith('ja')) {
+                currentLang = 'ja';
+            }
+
+            // 更新 DOM 文本
+            const subtitleEl = document.getElementById('subtitle');
+            const btnEl = document.getElementById('btn-text');
+            
+            if(subtitleEl && btnEl) {
+                subtitleEl.innerText = i18n[currentLang].subtitle;
+                btnEl.innerText = i18n[currentLang].button;
+            }
+        }
+
+        // 页面加载完成后执行语言检测
+        window.addEventListener('DOMContentLoaded', updateLanguage);
+    </script>
+</body>
+</html>
